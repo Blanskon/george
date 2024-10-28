@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4K Space Shooter</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #gameCanvas {
+            display: block;
+            margin: 0 auto;
+            background-image: url('https://i.imgur.com/9s8Psbw.jpg'); /* High-resolution space background */
+            background-size: cover;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 28px;
+            color: white;
+            z-index: 10;
+        }
+
+        #gameOver {
+            display: none;
+            font-size: 72px;
+            color: red;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div id="score">Score: 0</div>
+    <canvas id="gameCanvas" width="3840" height="2160"></canvas>
+    <div id="gameOver">Game Over!</div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let spaceship = {
+            x: canvas.width / 2 - 50,
+            y: canvas.height - 200,
+            width: 100,
+            height: 100,
+            speed: 8
+        };
+
+        let bullets = [];
+        let enemies = [];
+        let score = 0;
+        let gameOver = false;
+
+        // Load spaceship image
+        const spaceshipImg = new Image();
+        spaceshipImg.src = 'https://i.imgur.com/eSftPd8.png';  // High-quality spaceship image
+
+        // Create enemy ships
+        function createEnemy() {
+            const enemyX = Math.random() * (canvas.width - 100);
+            const enemy = { x: enemyX, y: 0, width: 80, height: 80, speed: 3 };
+            enemies.push(enemy);
+        }
+
+        // Update spaceship, bullets, and enemies
+        function updateGame() {
+            if (gameOver) return;
+
+            // Move bullets
+            for (let i = 0; i < bullets.length; i++) {
+                bullets[i].y -= 10;
+                if (bullets[i].y < 0) bullets.splice(i, 1);
+            }
+
+            // Move enemies
+            for (let i = 0; i < enemies.length; i++) {
+                enemies[i].y += enemies[i].speed;
+                if (enemies[i].y > canvas.height) {
+                    endGame();
+                }
+            }
+
+            // Check collisions between bullets and enemies
+            for (let i = 0; i < bullets.length; i++) {
+                for (let j = 0; j < enemies.length; j++) {
+                    if (bullets[i].x < enemies[j].x + enemies[j].width &&
+                        bullets[i].x + bullets[i].width > enemies[j].x &&
+                        bullets[i].y < enemies[j].y + enemies[j].height &&
+                        bullets[i].y + bullets[i].height > enemies[j].y) {
+                        enemies.splice(j, 1);
+                        bullets.splice(i, 1);
+                        score += 10;
+                        document.getElementById('score').innerText = `Score: ${score}`;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Draw the spaceship, bullets, and enemies
+        function drawGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw spaceship
+            ctx.drawImage(spaceshipImg, spaceship.x, spaceship.y, spaceship.width, spaceship.height);
+
+            // Draw bullets
+            ctx.fillStyle = 'yellow';
+            for (let bullet of bullets) {
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            }
+
+            // Draw enemies
+            ctx.fillStyle = 'red';
+            for (let enemy of enemies) {
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            }
+        }
+
+        // Main game loop
+        function gameLoop() {
+            updateGame();
+            drawGame();
+
+            if (!gameOver) {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        // Move spaceship
+        function moveSpaceship(event) {
+            if (event.key === 'ArrowLeft' && spaceship.x > 0) {
+                spaceship.x -= spaceship.speed;
+            }
+            if (event.key === 'ArrowRight' && spaceship.x < canvas.width - spaceship.width) {
+                spaceship.x += spaceship.speed;
+            }
+        }
+
+        // Shoot bullets
+        function shoot(event) {
+            if (event.key === ' ') {
+                const bullet = { x: spaceship.x + spaceship.width / 2 - 5, y: spaceship.y, width: 10, height: 20 };
+                bullets.push(bullet);
+            }
+        }
+
+        // End game
+        function endGame() {
+            gameOver = true;
+            document.getElementById('gameOver').style.display = 'block';
+        }
+
+        document.addEventListener('keydown', moveSpaceship);
+        document.addEventListener('keydown', shoot);
+        setInterval(createEnemy, 1000);
+        gameLoop();
+    </script>
+</body>
+</html>

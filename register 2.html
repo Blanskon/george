@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaplug</title>
+    <style>
+        /* Reset default browser styles */
+        body, h1, p, input, button {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: rgba(255, 255, 255, 0.8); /* Very light background */
+            color: #000;
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-y: auto; /* Enables vertical scrolling */
+        }
+
+        .background-spans {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-spans span {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: blueviolet;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: move 20s infinite ease-in-out;
+        }
+
+        .background-spans span:nth-child(1) {
+            background: orange;
+            top: 10%;
+            left: 10%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+        }
+
+        .background-spans span:nth-child(2) {
+            background: aqua;
+            top: 30%;
+            left: 40%;
+            animation-duration: 18s;
+            animation-delay: 2s;
+        }
+
+        .background-spans span:nth-child(3) {
+            background: gold;
+            top: 50%;
+            left: 70%;
+            animation-duration: 15s;
+            animation-delay: 1s;
+        }
+
+        .background-spans span:nth-child(4) {
+            background: chartreuse;
+            top: 20%;
+            left: 80%;
+            animation-duration: 25s;
+            animation-delay: 3s;
+        }
+
+        .background-spans span:nth-child(5) {
+            background: black;
+            top: 60%;
+            left: 20%;
+            animation-duration: 22s;
+            animation-delay: 1.5s;
+        }
+        .background-spans span:nth-child(6) {
+            background: rgba(253, 15, 142, 0.3);
+            top: 10%;
+            left: 10%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+        }.background-spans span:nth-child(7) {
+            background: purple;
+            top: 10%;
+            left: 10%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+        }.background-spans span:nth-child(8) {
+            background: chartreuse;
+            top: 10%;
+            left: 10%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+        }.background-spans span:nth-child(9) {
+            background: coral;
+            top: 10%;
+            left: 10%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+        }.background-spans span:nth-child(10) {
+            background: orange;
+            top: 10%;
+            left: 10%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+        }.background-spans span:nth-child(11) {
+            background: white;
+            top: 10%;
+            left: 10%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(300px, 300px) scale(1.5);
+            }
+            100% {
+                transform: translate(-200px, -200px) scale(1);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 0px;
+            font-size: 2rem;
+            color: #040404;
+        }
+
+        .container {
+            
+    background: rgba(169, 169, 169, 0.5); /* Semi-transparent dark grey */
+    
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            margin: auto;
+            position: relative;
+            z-index: 1;
+            
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #ececec;
+            color: #000;
+            box-sizing: border-box;
+        }
+
+        .form-group input:hover, .form-group select:hover {
+            background: #ffffff;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group input::placeholder {
+            transition: opacity 0.5s ease-out;
+        }
+
+        .form-group input.focused::placeholder {
+            opacity: 0;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background: orange;
+            color: #000;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, cornsilk, #fff);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me input {
+            margin-right: 10px;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: orange;
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Megaplug</h1>
+        <form>
+            <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" placeholder="Enter your first name" required>
+            </div>
+            <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" placeholder="Enter your last name" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date Of Birth</label>
+                <input type="text" id="dob" placeholder="DD/MM/YYYY" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Select Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">--Please choose an option--</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="category">Select Category:</label>
+                <select id="category" name="category" required>
+                    <option value="">--Please choose an option--</option>
+                    <option value="furniture">Furniture</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="grocery">Grocery</option>
+                    <option value="stationary">Stationary</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="remember">
+                <label for="remember">Remember Me</label>
+            </div>
+            <button type="submit" class="login-btn">Register</button>
+            <a href="#" class="forgot-password">Forgot Password?</a>
+        </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script>
+        const phoneInputField = document.querySelector("#phone");
+        intlTelInput(phoneInputField, {
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+
+        // Get all input elements
+        const inputs = document.querySelectorAll('.form-group input');
+
+        // Add event listeners to each input
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.classList.add('focused');
+            });
+            input.addEventListener('blur', () => {
+                input.classList.remove('focused');
+            });
+        });
+    </script>
+</body>
+</html>
